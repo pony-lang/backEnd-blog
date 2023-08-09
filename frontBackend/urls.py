@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.conf.urls import url
 from django.contrib.auth.models import User
 from rest_framework import serializers, routers, viewsets
+from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView, TokenObtainPairView
 
 
 class UserSerializers(serializers.HyperlinkedModelSerializer):
@@ -38,5 +39,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
-    url(r'^devtemplate/', include('demo.urls'))
+    url(r'^devtemplate/', include('demo.urls')),
+    url(r'^token-api/token/$codeholder_1amp;#39;', TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    url(r'^token-api/token/refresh/$codeholder_1amp;#39;', TokenRefreshView.as_view(), name='token_refresh'),
+    url(r'^token-api/token/verify/$codeholder_1amp;#39;', TokenVerifyView.as_view(), name='token_verify'),
 ]
