@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 添加应用
     'demo',
+    'drf_yasg',
     'rest_framework',
     'rest_framework_simplejwt'
 ]
