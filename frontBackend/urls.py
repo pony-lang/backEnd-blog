@@ -57,7 +57,7 @@ urlpatterns = [
     path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger"),
     url(r"^docs/", include_docs_urls(title="My API Titile")),
     path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
-    url(r'^token-api/token/$codeholder_1amp;#39;', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    url(r'^token-api/token/refresh/$codeholder_1amp;#39;', TokenRefreshView.as_view(), name='token_refresh'),
-    url(r'^token-api/token/verify/$codeholder_1amp;#39;', TokenVerifyView.as_view(), name='token_verify'),
+    url(r'^token-api/token/$', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    url(r'^token-api/token/refresh/$', TokenRefreshView.as_view(), name='token_refresh'),
+    url(r'^token-api/token/verify/$', TokenVerifyView.as_view(), name='token_verify'),
 ]

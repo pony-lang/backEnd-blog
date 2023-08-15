@@ -40,8 +40,8 @@ class DevTemplateViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
-        queryset = DevTemplate.objects.filter(owner=request.user)
-        # queryset = DevTemplate.objects.all()
+        # queryset = DevTemplate.objects.filter(owner=request.user)
+        queryset = DevTemplate.objects.all()
         queryset_tmp = get_object_or_404(queryset, pk=pk)
         self.check_object_permissions(request, DevTemplate)
         serializer = DevTemplateSerializer(queryset_tmp)
