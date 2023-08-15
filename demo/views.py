@@ -11,6 +11,7 @@ from rest_framework.response import Response
 
 from rest_framework_simplejwt import authentication
 
+
 class DevTemplateViewSet(viewsets.ModelViewSet):
     """
     list:
@@ -37,6 +38,7 @@ class DevTemplateViewSet(viewsets.ModelViewSet):
         self.check_object_permissions(request, DevTemplate)
         serializer = DevTemplateSerializer(queryset, many=True)
         return Response(serializer.data)
+
     def retrieve(self, request, pk=None):
         queryset = DevTemplate.objects.filter(owner=request.user)
         # queryset = DevTemplate.objects.all()

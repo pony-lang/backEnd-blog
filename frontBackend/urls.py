@@ -23,6 +23,17 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.documentation import include_docs_urls
 
+schema_view = get_schema_view(
+    openapi.Info(
+        title="博客接口文档平台",
+        default_version='v1',
+        description="博客文档描述",
+        terms_of_service="",
+        contact=openapi.Contact(email="mhcode@qq.com"),
+        license=openapi.License(name="BSD LICENSE")
+    ),
+    public=True
+)
 
 class UserSerializers(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -35,18 +46,6 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializers
 
 
-schema_view = get_schema_view(
-    openapi.Info(
-        title="接口文档平台",
-        default_version='v1',
-        description="文档描述",
-        terms_of_service="",
-        contact=openapi.Contact(email="mhcode@qq.com"),
-        license=openapi.License(name="BSD LICENSE")
-    ),
-    public=True
-)
-
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 
@@ -58,7 +57,7 @@ urlpatterns = [
     path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger"),
     url(r"^docs/", include_docs_urls(title="My API Titile")),
     path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
-    url(r'^token-api/token/$codeholder_1amp;#39;', TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    url(r'^token-api/token/$codeholder_1amp;#39;', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     url(r'^token-api/token/refresh/$codeholder_1amp;#39;', TokenRefreshView.as_view(), name='token_refresh'),
     url(r'^token-api/token/verify/$codeholder_1amp;#39;', TokenVerifyView.as_view(), name='token_verify'),
 ]
