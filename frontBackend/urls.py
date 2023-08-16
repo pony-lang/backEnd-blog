@@ -27,13 +27,14 @@ schema_view = get_schema_view(
     openapi.Info(
         title="博客接口文档平台",
         default_version='v1',
-        description="博客文档描述",
+        description="博客文档描述v1",
         terms_of_service="",
         contact=openapi.Contact(email="mhcode@qq.com"),
         license=openapi.License(name="BSD LICENSE")
     ),
     public=True
 )
+
 
 class UserSerializers(serializers.HyperlinkedModelSerializer):
     class Meta:
