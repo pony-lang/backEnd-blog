@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = 'django-insecure-q&2&6fx3d$%bhhk#1a2#2)tiq5-3g*sc+^46ybit=k3#+rvgi3
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -47,17 +45,23 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': (
-        #  'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    #
+    # ),
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
 
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-    ),
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+    # 用户登陆认证方式
+    # SessionAuthentication, BasicAuthentication，为了兼容drf自带的页面认证方式
+    # 若使用drf默认登录认证，不能使用自定义用户表，只可以用默认User表用户信息
+
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework.authentication.TokenAuthentication',
+    #     'rest_framework_simplejwt.authentication.JWTAuthentication',
+    #     'rest_framework.authentication.SessionAuthentication',
+    #     'rest_framework.authentication.BasicAuthentication',
+    # ),
+    # 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
 
 from datetime import timedelta
@@ -84,7 +88,7 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-#swagger页面认证界面采用 Authorization: Bearer ****
+# swagger页面认证界面采用 Authorization: Bearer ****
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'api_key': {
@@ -127,21 +131,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'frontBackend.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
-       'ENGINE': 'django.db.backends.mysql',
-       'NAME': 'iotplus',# 连接的数据库
-       'HOST': '127.0.0.1',# mysql的ip地址
-       'PORT': 3306,# mysql的端口
-       'USER': 'root',# mysql的用户名
-       'PASSWORD': 'admin@123',# mysql的密码
-  }
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'iotplus',  # 连接的数据库
+        'HOST': '127.0.0.1',  # mysql的ip地址
+        'PORT': 3306,  # mysql的端口
+        'USER': 'root',  # mysql的用户名
+        'PASSWORD': 'admin@123',  # mysql的密码
+    }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -161,7 +163,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -177,7 +178,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

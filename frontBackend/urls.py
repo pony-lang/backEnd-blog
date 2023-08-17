@@ -61,4 +61,6 @@ urlpatterns = [
     url(r'^token-api/token/$', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     url(r'^token-api/token/refresh/$', TokenRefreshView.as_view(), name='token_refresh'),
     url(r'^token-api/token/verify/$', TokenVerifyView.as_view(), name='token_verify'),
+    # jwt
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

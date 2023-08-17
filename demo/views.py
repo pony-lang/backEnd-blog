@@ -1,7 +1,7 @@
 # Create your views here.
 
-from .models import DevTemplate
-from demo.serializers import DevTemplateSerializer
+from .models import DevTemplate, User
+from demo.serializers import DevTemplateSerializer, UserSerializer
 
 from django.shortcuts import get_object_or_404
 
@@ -46,3 +46,13 @@ class DevTemplateViewSet(viewsets.ModelViewSet):
         self.check_object_permissions(request, DevTemplate)
         serializer = DevTemplateSerializer(queryset_tmp)
         return Response(serializer.data)
+
+
+class TestView(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    def get(self, request, *agrs, **kwargs):
+        return Response('OK')
+
+    def post(self, request, *args, **kwargs):
+        return Response('OK')
