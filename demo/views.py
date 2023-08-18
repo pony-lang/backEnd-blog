@@ -1,12 +1,13 @@
 # Create your views here.
 
-from .models import DevTemplate, User
-from demo.serializers import DevTemplateSerializer, UserSerializer
+from .models import DevTemplate
+from demo.serializers import DevTemplateSerializer
 
 from django.shortcuts import get_object_or_404
 
 from rest_framework import viewsets
 from rest_framework.response import Response
+from rest_framework.views import APIView
 # from rest_framework.authentication import BasicAuthentication
 
 from rest_framework_simplejwt import authentication
@@ -48,11 +49,7 @@ class DevTemplateViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class TestView(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    def get(self, request, *agrs, **kwargs):
-        return Response('OK')
-
+class TestView(APIView):
     def post(self, request, *args, **kwargs):
-        return Response('OK')
+        s = str(request.user.__dict__)
+        return Response(data=s)

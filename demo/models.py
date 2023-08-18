@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password, check_password
 from django.db import models
 
 # Create your models here.
@@ -35,11 +36,12 @@ class DevTemplate(models.Model):
 
 class User(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False)
-    code = models.CharField(max_length=64, unique=True, verbose_name='用户编码')
-    name = models.CharField(max_length=128, verbose_name='用户中文名')
+    username = models.CharField(max_length=128, verbose_name='用户中文名')
     password = models.CharField(max_length=256, verbose_name='密码')
     email = models.EmailField(unique=True, verbose_name='邮箱')
     enabled = models.IntegerField(default=1, verbose_name='是否启用', choices=((1, '启用'), (0, '停用')))
+    created = models.DateTimeField(_(u"Creation date"), auto_now_add=True)
+    updated = models.DateTimeField(_(u"Update date"), auto_now=True)
 
     @property
     def is_authenticated(self):
@@ -48,3 +50,14 @@ class User(models.Model):
         authenticated in templates
         """
         return True
+
+    def set_password(self, raw_password):
+        self.password = make_password(raw_password)
+
+    def check_password(self, raw_password):
+        return check_password(raw_password, self.password)
+
+    class Meta:
+        db_table = "user"
+        verbose_name = "用户账号表"
+        verbose_name_plural = verbose_name

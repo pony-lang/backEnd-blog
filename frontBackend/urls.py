@@ -18,7 +18,9 @@ from django.urls import path, include
 from django.conf.urls import url
 from django.contrib.auth.models import User
 from rest_framework import serializers, routers, viewsets
-from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView, TokenObtainPairView
+from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView
+from demo.utils.Authentications import MyTokenObtainPairView
+from demo.views import TestView
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.documentation import include_docs_urls
@@ -58,9 +60,9 @@ urlpatterns = [
     path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger"),
     url(r"^docs/", include_docs_urls(title="My API Titile")),
     path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
-    url(r'^token-api/token/$', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    url(r'^token-api/token/refresh/$', TokenRefreshView.as_view(), name='token_refresh'),
-    url(r'^token-api/token/verify/$', TokenVerifyView.as_view(), name='token_verify'),
-    # jwt
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
+    path('login/', MyTokenObtainPairView.as_view()),
+    path('refresh/', TokenRefreshView.as_view(), name="token_refresh"),
+    path('verify/', TokenVerifyView.as_view(), name="token_verify"),
+    path("test/", TestView.as_view(), name="token_refresh"),
 ]
