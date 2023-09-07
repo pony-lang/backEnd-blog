@@ -18,4 +18,4 @@ class MyJWTAuthentication(JWTAuthentication):
             user = User.objects.get(**{'id': user_id})
         except User.DoesNotExist:
             raise AuthenticationFailed(_('User not found'), code='user_not_found')
-        return user
+        return user 

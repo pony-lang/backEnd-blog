@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url
 from django.contrib.auth.models import User
-from rest_framework import serializers, routers, viewsets
+from rest_framework import serializers, routers, viewsets, permissions
 from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView
 from demo.utils.Authentications import MyTokenObtainPairView
 from demo.views import TestView
@@ -32,7 +32,9 @@ schema_view = get_schema_view(
         description="博客文档描述v1",
         terms_of_service="",
         contact=openapi.Contact(email="mhcode@qq.com"),
-        license=openapi.License(name="BSD LICENSE")
+        license=openapi.License(name="BSD LICENSE"),
+        public=True,
+        permission_classes=(permissions.AllowAny,)
     ),
     public=True
 )
