@@ -13,6 +13,9 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt import authentication
 
 
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+
 class DevTemplateViewSet(viewsets.ModelViewSet):
     """
     list:
@@ -53,3 +56,13 @@ class TestView(APIView):
     def post(self, request, *args, **kwargs):
         s = str(request.user.__dict__)
         return Response(data=s)
+
+
+class MyView(APIView):
+    @swagger_auto_schema(
+        operation_description="my operation summary",
+        security=[{"Bearer": []}],
+        responses={200: "Success"},
+    )
+    def get(self, request):
+        pass
