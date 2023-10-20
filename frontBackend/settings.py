@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-q&2&6fx3d$%bhhk#1a2#2)tiq5-3g*sc+^46ybit=k3#+rvgi3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -49,38 +49,26 @@ REST_FRAMEWORK = {
     #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     #
     # ),
-    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
+
+
+    # JWT
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
 
     # 用户登陆认证方式
     # SessionAuthentication, BasicAuthentication，为了兼容drf自带的页面认证方式
     # 若使用drf默认登录认证，不能使用自定义用户表，只可以用默认User表用户信息
 
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'demo.utils.jwt.MyJWTAuthentication'  # 认证方式为自定义的认证类
-    ],
+    # 'DEFAULT_AUTHENTICATION_CLASSES': [
+    #     'rest_framework_simplejwt.authentication.JWTAuthentication',  # 认证方式为自定义的认证类
+    # ],
 }
 
 from datetime import timedelta
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=100),  # 访问令牌的有效时间
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),  # 刷新令牌的有效时间
-    "ROTATE_REFRESH_TOKENS": False,  # 若为True，则刷新后新的refresh_token有更新的有效时间
-    "BLACKLIST_AFTER_ROTATION": True,  # 若为True，刷新后的token将添加到黑名单中,
-    "ALGORITHM": "HS256",  # 对称算法：HS256 HS384 HS512  非对称算法：RSA
-    "SIGNING_KEY": SECRET_KEY,
-    "VERIFYING_KEY": None,  # if signing_key, verifying_key will be ignore.
-    "AUDIENCE": None,
-    "ISSUER": None,
-    "AUTH_HEADER_TYPES": ("Bearer",),  # Authorization: Bearer <token>
-    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",  # if HTTP_X_ACCESS_TOKEN, X_ACCESS_TOKEN: Bearer <token>
-    "USER_ID_FIELD": "id",  # 使用唯一不变的数据库字段,将包含在生成的令牌中以标识用户
-    "USER_ID_CLAIM": "user_id",
-    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),   # default: access
-    "TOKEN_TYPE_CLAIM": "token_type",         # 用于存储令牌唯一标识符的声明名称 value:"access","sliding","refresh"
-    "JTI_CLAIM": "jti",
-    "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",     # 滑动令牌是既包含到期声明又包含刷新到期声明的令牌
-    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),       # 只要滑动令牌的到期声明中的时间戳未通过，就可以用来证明身份验证
-    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),  # path("token|refresh", TokenObtainSlidingView.as_view())
 }
 
 # swagger页面认证界面采用 Authorization: Bearer ****

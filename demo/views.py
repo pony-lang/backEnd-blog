@@ -1,20 +1,21 @@
 # Create your views here.
+from drf_yasg import views
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import IsAuthenticated
 
-from .models import DevTemplate
-from demo.serializers import DevTemplateSerializer
+from .models import DevTemplate, User
+from demo.serializers import DevTemplateSerializer, UserSerializer
 
 from django.shortcuts import get_object_or_404
 
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from rest_framework.response import Response
-from rest_framework.views import APIView
-# from rest_framework.authentication import BasicAuthentication
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication
 
 from rest_framework_simplejwt import authentication
 
+from .utils.Authentications import MyJWTAuthentication
 
-from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
 
 class DevTemplateViewSet(viewsets.ModelViewSet):
     """
@@ -52,17 +53,30 @@ class DevTemplateViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class TestView(APIView):
+class TestView(views.APIView):
+    # permission_classes = [permissions.AllowAny]
+    # authentication_classes = [JWTAuthentication, SessionAuthentication, BasicAuthentication]
+
+    def get(self, request, *args, **kwargs):
+        # print('authenticate: ', request.successful_authenticator.authenticate(request))
+        # print('authenticate_header: ', request.successful_authenticator.authenticate_header(request))
+        # print('get_header: ', request.successful_authenticator.get_header(request))
+        # print('get_raw_token: ',
+        #       request.successful_authenticator.get_raw_token(request.successful_authenticator.get_header(request)))
+        # print('get_validated_token: ', request.successful_authenticator.get_validated_token(
+        #     request.successful_authenticator.get_raw_token(request.successful_authenticator.get_header(request))))
+        # print('get_user: ', request.successful_authenticator.get_user(
+        #     request.successful_authenticator.get_validated_token(
+        #         request.successful_authenticator.get_raw_token(request.successful_authenticator.get_header(request)))))
+        # print('www_authenticate_realm: ', request.successful_authenticator.www_authenticate_realm)
+        return Response('OK')
+
     def post(self, request, *args, **kwargs):
-        s = str(request.user.__dict__)
-        return Response(data=s)
+        return Response('OK')
 
 
-class MyView(APIView):
-    @swagger_auto_schema(
-        operation_description="my operation summary",
-        security=[{"Bearer": []}],
-        responses={200: "Success"},
-    )
-    def get(self, request):
-        pass
+class UserViewSet(ModelViewSet):
+    queryset = User.objects.all().order_by('id')
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [MyJWTAuthentication, SessionAuthentication, BasicAuthentication]
