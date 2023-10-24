@@ -57,7 +57,6 @@ router.register(r'users', UserViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls')),
     url(r'^devtemplate/', include('demo.urls')),
 
     path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger"),
